@@ -71,6 +71,58 @@
       z-index: 100;
       animation: fadeDown 0.8s ease forwards;
     }
+    
+    .nav-menu {
+      position: relative;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 24px; height: 24px;
+      background: none; border: none;
+      cursor: pointer; padding: 0.5rem;
+      z-index: 101;
+    }
+    .hamburger span {
+      width: 100%; height: 2px;
+      background: var(--text);
+      transition: all 0.3s ease;
+      transform-origin: center;
+    }
+    
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      .nav-links {
+        position: absolute; top: 100%; right: 0;
+        flex-direction: column;
+        background: var(--surface);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border);
+        border-top: none;
+        min-width: 200px;
+        padding: 1rem 0;
+        opacity: 0; visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      }
+      .nav-links.active {
+        opacity: 1; visibility: visible;
+        transform: translateY(0);
+      }
+      .nav-links a {
+        padding: 0.8rem 2rem;
+        border-bottom: 1px solid rgba(30,45,61,0.2);
+        width: 100%; text-align: left;
+      }
+      .nav-links a:hover::after { width: 30px; }
+      .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(6px, 6px); }
+      .hamburger.active span:nth-child(2) { opacity: 0; }
+      .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
+    }
     .nav-logo {
       font-size: 1.1rem; font-weight: 800; letter-spacing: 0.05em;
       color: var(--text);
@@ -142,11 +194,18 @@
     }
 
     h1.hero-name {
-      font-size: clamp(3.5rem, 8vw, 7rem);
-      font-weight: 800; line-height: 1;
+      font-size: clamp(2.8rem, 10vw, 6rem);
+      font-weight: 800; line-height: 1.05;
       letter-spacing: -0.02em;
       margin-bottom: 0.5rem;
       opacity: 0; animation: fadeUp 0.8s ease 0.4s forwards;
+    }
+    
+    @media (max-width: 480px) {
+      h1.hero-name {
+        line-height: 1.1;
+        margin-bottom: 0.4rem;
+      }
     }
     h1.hero-name .line2 { color: transparent;
       -webkit-text-stroke: 1px rgba(0,212,255,0.5); }
@@ -208,7 +267,11 @@
     }
 
     /* SECTION BASE */
-    section { padding: 7rem 4rem; position: relative; }
+    section { padding: 6rem 3rem; position: relative; }
+    
+    @media (max-width: 768px) {
+      section { padding: 4rem 1.5rem; }
+    }
     .section-header {
       display: flex; align-items: center; gap: 1.5rem;
       margin-bottom: 4rem;
@@ -233,6 +296,17 @@
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1.5rem;
     }
+    
+    /* Mobile skills grid override */
+    @media (max-width: 768px) {
+      .skills-grid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+        max-width: 380px;
+        margin: 0 auto;
+      }
+    }
+
     .skill-category {
       background: var(--card);
       border: 1px solid var(--border);
@@ -274,6 +348,22 @@
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 1.5rem;
     }
+    
+    /* Mobile projects grid override */
+    @media (max-width: 768px) {
+      .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+      }
+      .project-card {
+        padding: 2rem 1.5rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .projects-grid { gap: 1rem; }
+    }
+
     .project-card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -415,16 +505,58 @@
     }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
-    /* Mobile */
+    /* Enhanced Mobile Responsiveness */
     @media (max-width: 768px) {
       nav { padding: 1rem 1.5rem; }
       .nav-links { display: none; }
-      section, #hero { padding: 5rem 1.5rem 4rem; }
+      section { padding: 4rem 1.5rem; }
+      #hero { padding: 6rem 1.5rem 3rem; min-height: 100vh; }
       .form-row { grid-template-columns: 1fr; }
-      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 1.5rem; }
       .contact-socials { flex-direction: column; align-items: center; gap: 1rem; }
+      
+      /* Hide cursor on mobile */
+      #cursor, #cursor-ring { display: none !important; }
+      body { cursor: auto; }
+      
+      /* Touch-friendly buttons */
+      .btn-primary, .btn-secondary, .form-submit {
+        min-height: 48px; padding: 1rem 1.5rem; font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1.hero-name { font-size: clamp(2.5rem, 10vw, 4rem) !important; }
+      .section-title { font-size: clamp(1.5rem, 6vw, 2rem); }
+      
+      .hero-desc { font-size: 0.95rem; }
+      .hero-role { font-size: 1rem; }
+      
+      .skill-category { padding: 1.5rem; }
+      .project-card { padding: 1.8rem; }
+      
+      .section-header { flex-direction: column; align-items: flex-start; gap: 1rem; text-align: left; }
+    }
+
+    @media (max-width: 360px) {
+      nav, section, #hero, footer { padding-left: 1rem; padding-right: 1rem; }
+      
+      .skill-category, .project-card { padding: 1.2rem; }
+      .skill-tags, .project-stack { gap: 0.4rem; }
+      .skill-tag, .stack-tag { font-size: 0.7rem; padding: 0.25rem 0.5rem; }
+      
+      /* Emergency grid fix - single column */
+      .skills-grid, .projects-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.2rem;
+      }
+      
+      /* Compact spacing */
+      section { padding: 3.5rem 1rem; }
+      #hero { padding: 5rem 1rem 2.5rem; }
     }
   </style>
+
 </head>
 <body>
 
@@ -435,11 +567,19 @@
 <!-- NAV -->
 <nav>
   <div class="nav-logo">&lt;<span>Nouman Ijaz Khan</span> /&gt;</div>
-  <ul class="nav-links">
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
+  <div class="nav-menu">
+    <button class="hamburger" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+
 </nav>
 
 <!-- HERO -->
@@ -825,6 +965,23 @@
     setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; e.target.reset(); }, 3000);
   }
 
+  // Hamburger menu toggle
+  const hamburger = document.querySelector('.hamburger');
+  const navLinks = document.querySelector('.nav-links');
+  
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    navLinks.classList.toggle('active');
+  });
+  
+  // Close menu on link click
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('active');
+      navLinks.classList.remove('active');
+    });
+  });
+
   // Active nav on scroll
   const sections = document.querySelectorAll('section[id]');
   window.addEventListener('scroll', () => {
@@ -837,6 +994,7 @@
       }
     });
   });
+
 </script>
 </body>
 </html>
